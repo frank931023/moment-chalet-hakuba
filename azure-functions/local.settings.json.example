@@ -1,0 +1,20 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+
+    "SUPABASE_URL": "https://<your-project-ref>.supabase.co",
+    "SUPABASE_SERVICE_ROLE_KEY": "<your-supabase-service-role-key>",
+
+    "AZURE_SUBSCRIPTION_ID": "<your-azure-subscription-id>",
+
+    "AZURE_COST_API_TOKEN": "<bearer-token-for-cost-management-api>",
+
+    "AZURE_TENANT_ID": "<your-azure-tenant-id>",
+    "AZURE_CLIENT_ID": "<your-service-principal-client-id>",
+    "AZURE_CLIENT_SECRET": "<your-service-principal-client-secret>",
+
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": "InstrumentationKey=<your-instrumentation-key>"
+  }
+}

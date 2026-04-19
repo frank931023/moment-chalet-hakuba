@@ -1,0 +1,126 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "properties": "宿泊施設",
+    "myBooking": "予約確認",
+    "admin": "管理画面"
+  },
+  "home": {
+    "title": "Moment Chalet Hakuba",
+    "subtitle": "白馬村のブティックシャレー",
+    "description": "白馬村で最もユニークな滞在体験を — 9棟の丁寧に設計されたシャレーがお待ちしています",
+    "viewAll": "すべての施設を見る",
+    "bookNow": "今すぐ予約"
+  },
+  "property": {
+    "from": "から",
+    "perNight": "/ 泊",
+    "viewDetail": "詳細を見る",
+    "amenities": "設備・アメニティ",
+    "rooms": "客室タイプ",
+    "location": "アクセス",
+    "reviews": "ゲストレビュー"
+  },
+  "booking": {
+    "step1": "日程・客室選択",
+    "step2": "ゲスト情報",
+    "step3": "お支払い",
+    "checkIn": "チェックイン",
+    "checkOut": "チェックアウト",
+    "guests": "人数",
+    "next": "次へ",
+    "back": "戻る",
+    "guestName": "お名前",
+    "email": "メールアドレス",
+    "phone": "電話番号",
+    "specialRequests": "特別リクエスト",
+    "includeBreakfast": "朝食付き",
+    "excludeBreakfast": "朝食なし",
+    "totalAmount": "合計金額",
+    "nights": "泊",
+    "breakfastFee": "朝食料金",
+    "pay": "PayPalで支払う",
+    "summary": "予約内容",
+    "noRoomSelected": "施設ページに戻って客室タイプを選択してください。",
+    "paymentCancelled": "お支払いがキャンセルされました。再度お試しください。"
+  },
+  "confirmation": {
+    "title": "予約が完了しました！",
+    "bookingId": "予約番号",
+    "emailSent": "確認メールをお送りしました",
+    "backHome": "ホームに戻る"
+  },
+  "myBooking": {
+    "title": "予約確認",
+    "emailLabel": "メールアドレス",
+    "bookingIdLabel": "予約番号",
+    "search": "検索",
+    "notFound": "予約が見つかりません。メールアドレスと予約番号をご確認ください。",
+    "requestRefund": "返金申請",
+    "refundConfirm": "返金を申請しますか？この操作は取り消せません。"
+  },
+  "status": {
+    "pending": "確認待ち",
+    "confirmed": "確認済み",
+    "cancelled": "キャンセル済み",
+    "refunded": "返金済み"
+  },
+  "admin": {
+    "login": "管理者ログイン",
+    "logout": "ログアウト",
+    "dashboard": "ダッシュボード",
+    "bookings": "予約管理",
+    "properties": "施設管理",
+    "ical": "iCal同期",
+    "costs": "コスト監視",
+    "chatbot": "AIチャットボット",
+    "allStatuses": "すべてのステータス",
+    "searchBookings": "ゲスト名またはメールで検索",
+    "refund": "返金",
+    "refundConfirm": "返金の確認",
+    "refundConfirmDesc": "PayPalで返金処理を行います。この操作は取り消せません。"
+  },
+  "chatbot": {
+    "title": "サポートチャット",
+    "placeholder": "ご質問をどうぞ...",
+    "send": "送信",
+    "error": "現在応答できません。しばらくしてからお試しください。"
+  },
+  "error": {
+    "required": "この項目は必須です",
+    "invalidEmail": "有効なメールアドレスを入力してください",
+    "invalidPhone": "有効な電話番号を入力してください",
+    "dateOrder": "チェックアウト日はチェックイン日より後にしてください",
+    "dateBlocked": "選択した日程はご利用いただけません。別の日程をお選びください。",
+    "networkError": "ネットワークエラーが発生しました。後でもう一度お試しください。",
+    "paymentFailed": "お支払いに失敗しました。再試行するかサポートにお問い合わせください。"
+  },
+  "language": {
+    "zhTW": "繁體中文",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "currency": {
+    "twd": "TWD"
+  },
+  "roomCard": {
+    "capacity": "最大 {n} 名",
+    "perNight": "泊",
+    "breakfastOption": "朝食オプション",
+    "withBreakfast": "朝食付き",
+    "noBreakfast": "朝食なし"
+  },
+  "bookingSummary": {
+    "title": "予約内容",
+    "property": "施設",
+    "roomType": "客室タイプ",
+    "checkIn": "チェックイン",
+    "checkOut": "チェックアウト",
+    "nights": "宿泊数",
+    "breakfast": "朝食",
+    "included": "付き",
+    "notIncluded": "なし",
+    "breakfastFee": "朝食料金",
+    "total": "合計金額"
+  }
+}

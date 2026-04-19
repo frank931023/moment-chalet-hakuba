@@ -1,0 +1,126 @@
+{
+  "nav": {
+    "home": "Home",
+    "properties": "Properties",
+    "myBooking": "My Booking",
+    "admin": "Admin"
+  },
+  "home": {
+    "title": "Moment Chalet Hakuba",
+    "subtitle": "Boutique Chalets in Hakuba, Japan",
+    "description": "Experience the most unique stays in Hakuba Village — nine thoughtfully designed chalets await you",
+    "viewAll": "View All Properties",
+    "bookNow": "Book Now"
+  },
+  "property": {
+    "from": "From",
+    "perNight": "/ night",
+    "viewDetail": "View Details",
+    "amenities": "Amenities",
+    "rooms": "Room Types",
+    "location": "Location",
+    "reviews": "Guest Reviews"
+  },
+  "booking": {
+    "step1": "Select Dates & Room",
+    "step2": "Guest Details",
+    "step3": "Payment",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "next": "Next",
+    "back": "Back",
+    "guestName": "Guest Name",
+    "email": "Email",
+    "phone": "Phone",
+    "specialRequests": "Special Requests",
+    "includeBreakfast": "With Breakfast",
+    "excludeBreakfast": "Without Breakfast",
+    "totalAmount": "Total",
+    "nights": "nights",
+    "breakfastFee": "Breakfast Fee",
+    "pay": "Pay with PayPal",
+    "summary": "Booking Summary",
+    "noRoomSelected": "Please go back and select a room type first.",
+    "paymentCancelled": "Payment was cancelled. You can try again."
+  },
+  "confirmation": {
+    "title": "Booking Confirmed!",
+    "bookingId": "Booking ID",
+    "emailSent": "A confirmation email has been sent to your email address",
+    "backHome": "Back to Home"
+  },
+  "myBooking": {
+    "title": "My Booking",
+    "emailLabel": "Email",
+    "bookingIdLabel": "Booking ID",
+    "search": "Search",
+    "notFound": "No booking found. Please check your email and booking ID.",
+    "requestRefund": "Request Refund",
+    "refundConfirm": "Confirm refund request? This action cannot be undone."
+  },
+  "status": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded"
+  },
+  "admin": {
+    "login": "Admin Login",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "bookings": "Bookings",
+    "properties": "Properties",
+    "ical": "iCal Sync",
+    "costs": "Cost Monitor",
+    "chatbot": "AI Chatbot",
+    "allStatuses": "All Statuses",
+    "searchBookings": "Search by guest name or email",
+    "refund": "Refund",
+    "refundConfirm": "Confirm Refund",
+    "refundConfirmDesc": "This will process a PayPal refund and cannot be undone."
+  },
+  "chatbot": {
+    "title": "Chat Support",
+    "placeholder": "Type your question...",
+    "send": "Send",
+    "error": "Unable to respond at the moment. Please try again later."
+  },
+  "error": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhone": "Please enter a valid phone number",
+    "dateOrder": "Check-out date must be after check-in date",
+    "dateBlocked": "Selected dates are unavailable. Please choose different dates.",
+    "networkError": "Network error. Please try again later.",
+    "paymentFailed": "Payment failed. Please retry or contact support."
+  },
+  "language": {
+    "zhTW": "繁體中文",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "currency": {
+    "twd": "TWD"
+  },
+  "roomCard": {
+    "capacity": "Up to {n} guests",
+    "perNight": "night",
+    "breakfastOption": "Breakfast",
+    "withBreakfast": "With breakfast",
+    "noBreakfast": "Without breakfast"
+  },
+  "bookingSummary": {
+    "title": "Booking Summary",
+    "property": "Property",
+    "roomType": "Room Type",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "nights": "Nights",
+    "breakfast": "Breakfast",
+    "included": "Included",
+    "notIncluded": "Not included",
+    "breakfastFee": "Breakfast fee",
+    "total": "Total"
+  }
+}
