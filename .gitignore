@@ -55,5 +55,5 @@ test-results/
 *.tsbuildinfo
 
 methods/
-
+.kiro/
 
