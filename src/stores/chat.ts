@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
 import i18n from '@/i18n'
 import type { ChatMessage } from '@/types'
 import { saveMessagesToSession, loadMessagesFromSession } from './chatSessionStorage'
-import { IS_MOCK_MODE } from '@/lib/supabase'
+import { supabase, IS_MOCK_MODE } from '@/lib/supabase'
 
 const MOCK_REPLIES: Record<string, string> = {
   'zh-TW': '您好！我是 Moment Chalet Hakuba 的客服助理。這是示範模式，實際上線後我可以回答關於民宿設施、預訂流程、入退房時間等問題。請問有什麼可以幫您的嗎？',
@@ -45,17 +44,17 @@ export const useChatStore = defineStore('chat', () => {
         return
       }
 
-      const supabaseUrl = (import.meta as unknown as { env: Record<string, string> }).env.VITE_SUPABASE_URL
       const locale = i18n.global.locale.value
 
-      const response = await axios.post<{ reply: string; tokens_used: number }>(
-        `${supabaseUrl}/functions/v1/chat`,
-        { session_id: sessionId.value, message: content, locale }
+      const { data, error } = await supabase.functions.invoke<{ reply: string; tokens_used: number }>(
+        'chat',
+        { body: { session_id: sessionId.value, message: content, locale } }
       )
+      if (error) throw error
 
       messages.value.push({
         role: 'assistant',
-        content: response.data.reply,
+        content: data?.reply ?? '',
         timestamp: new Date()
       })
     } catch {
