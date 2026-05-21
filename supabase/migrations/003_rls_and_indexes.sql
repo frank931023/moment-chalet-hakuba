@@ -38,27 +38,3 @@ ALTER TABLE blocked_dates ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "public read blocked_dates" ON blocked_dates
   FOR SELECT USING (true);
-
--- ============================================================
--- llm_usage_snapshots（LLM 用量快照）：僅 Admin 可讀
--- ============================================================
-ALTER TABLE llm_usage_snapshots ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "admin read llm_usage_snapshots" ON llm_usage_snapshots
-  FOR SELECT USING (auth.role() = 'authenticated');
-
--- ============================================================
--- azure_cost_snapshots（Azure 費用快照）：僅 Admin 可讀
--- ============================================================
-ALTER TABLE azure_cost_snapshots ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "admin read azure_cost_snapshots" ON azure_cost_snapshots
-  FOR SELECT USING (auth.role() = 'authenticated');
-
--- ============================================================
--- azure_alerts（Azure 費用警示）：僅 Admin 可讀
--- ============================================================
-ALTER TABLE azure_alerts ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "admin read azure_alerts" ON azure_alerts
-  FOR SELECT USING (auth.role() = 'authenticated');

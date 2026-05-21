@@ -20,10 +20,6 @@ supabase/.branches/
 supabase/.temp/
 supabase/functions/.cache/
 
-# ── Azure Functions local settings（含 secrets）──────────────
-azure-functions/local.settings.json
-azure-functions/dist/
-
 # ── Logs ──────────────────────────────────────────────────────
 logs/
 *.log
@@ -53,8 +49,4 @@ test-results/
 
 # ── TypeScript ────────────────────────────────────────────────
 *.tsbuildinfo
-
-methods/
-.kiro/
-
 

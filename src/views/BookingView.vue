@@ -7,6 +7,7 @@ import { useBookingStore } from '@/stores/booking'
 import DateRangePicker from '@/components/DateRangePicker.vue'
 import BookingSummary from '@/components/BookingSummary.vue'
 import PayPalButton from '@/components/PayPalButton.vue'
+import { supabase } from '@/lib/supabase'
 import type { BookingFormData } from '@/types'
 import { getPageMeta } from '@/utils/pageMeta'
 
@@ -133,6 +134,51 @@ const bookingFormData = computed<BookingFormData>(() => ({
 watch(() => bookingStore.includeBreakfast, () => {
   bookingStore.calculateTotal()
 })
+
+// ── Demo payment: skip PayPal, write directly to DB + send email ────
+const isDemoLoading = ref(false)
+
+async function handleDemoPay() {
+  paymentError.value = ''
+  paymentCancelled.value = false
+  isDemoLoading.value = true
+  try {
+    // 1. Insert booking with confirmed status (demo IDs to mark it)
+    const demoStamp = Date.now()
+    const { data: inserted, error: insertError } = await supabase
+      .from('bookings')
+      .insert({
+        ...bookingFormData.value,
+        status: 'confirmed',
+        paypal_order_id: `DEMO-${demoStamp}`,
+        paypal_capture_id: `DEMO-CAP-${demoStamp}`,
+      })
+      .select('id')
+      .single()
+    if (insertError) throw insertError
+
+    // 2. Fire confirmation email (don't block if it fails)
+    try {
+      const { error: emailErr } = await supabase.functions.invoke('email-send', {
+        body: {
+          to: bookingStore.guestEmail,
+          template: 'booking_confirmed',
+          data: { guest_name: bookingStore.guestName, booking_id: inserted.id },
+        },
+      })
+      if (emailErr) console.warn('[demo pay] email-send failed:', emailErr)
+    } catch (emailErr) {
+      console.warn('[demo pay] email-send threw:', emailErr)
+    }
+
+    bookingStore.reset()
+    router.push('/booking/confirmation')
+  } catch (err) {
+    paymentError.value = err instanceof Error ? err.message : 'Demo payment failed'
+  } finally {
+    isDemoLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -408,7 +454,7 @@ watch(() => bookingStore.includeBreakfast, () => {
         </div>
 
         <!-- PayPal button -->
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 mb-6">
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 mb-4">
           <PayPalButton
             :amount="bookingStore.totalAmount"
             currency="TWD"
@@ -417,6 +463,29 @@ watch(() => bookingStore.includeBreakfast, () => {
             @error="handlePaymentError"
             @cancel="handlePaymentCancel"
           />
+        </div>
+
+        <!-- Demo pay button (skip PayPal, for testing the booking + email flow) -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">示範模式</span>
+            <span class="text-xs text-amber-800">跳過 PayPal,直接建立訂單並寄送確認信</span>
+          </div>
+          <button
+            type="button"
+            class="w-full rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold px-4 py-2.5 text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+            :disabled="isDemoLoading"
+            @click="handleDemoPay"
+          >
+            <span v-if="isDemoLoading" class="inline-flex items-center gap-2">
+              <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              </svg>
+              處理中…
+            </span>
+            <span v-else>示範付款 — 直接完成訂單</span>
+          </button>
         </div>
 
         <!-- Back button -->

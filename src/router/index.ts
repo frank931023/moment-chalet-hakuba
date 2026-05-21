@@ -67,11 +67,6 @@ const router = createRouter({
           component: () => import('@/views/admin/AdminIcalView.vue')
         },
         {
-          path: 'costs',
-          name: 'admin-costs',
-          component: () => import('@/views/admin/AdminCostsView.vue')
-        },
-        {
           path: 'chatbot',
           name: 'admin-chatbot',
           component: () => import('@/views/admin/AdminChatbotView.vue')

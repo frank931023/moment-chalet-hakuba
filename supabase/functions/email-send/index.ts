@@ -69,6 +69,7 @@ Deno.serve(async (req: Request) => {
   }
 
   const resendApiKey = Deno.env.get('RESEND_API_KEY')
+  const emailFrom = Deno.env.get('EMAIL_FROM') ?? 'onboarding@resend.dev'
 
   if (!resendApiKey) {
     return new Response(JSON.stringify({ error: 'Server configuration error: missing RESEND_API_KEY' }), {
@@ -122,7 +123,7 @@ Deno.serve(async (req: Request) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Moment Chalet Hakuba <noreply@momentchalet.com>',
+        from: `Moment Chalet Hakuba <${emailFrom}>`,
         to: [to],
         subject: rendered.subject,
         html: rendered.html,

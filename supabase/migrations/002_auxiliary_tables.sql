@@ -1,5 +1,5 @@
 -- Migration: 002_auxiliary_tables.sql
--- 建立輔助資料表：chat_logs, llm_usage_snapshots, azure_cost_snapshots, azure_alerts
+-- 建立輔助資料表：chat_logs, llm_usage_snapshots
 
 -- ============================================================
 -- chat_logs（對話紀錄）
@@ -33,30 +33,6 @@ CREATE TABLE llm_usage_snapshots (
   created_at     TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ============================================================
--- azure_cost_snapshots（Azure 費用快照）
--- ============================================================
-CREATE TABLE azure_cost_snapshots (
-  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  snapshot_date DATE NOT NULL,
-  service_name  TEXT NOT NULL,
-  resource_name TEXT,
-  cost_usd      NUMERIC(10, 4) NOT NULL DEFAULT 0,
-  cost_twd      NUMERIC(10, 2) NOT NULL DEFAULT 0,
-  period        TEXT NOT NULL CHECK (period IN ('daily', 'weekly', 'monthly')),
-  created_at    TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE INDEX idx_cost_snapshots_date ON azure_cost_snapshots(snapshot_date);
-
--- ============================================================
--- azure_alerts（Azure 費用警示）
--- ============================================================
-CREATE TABLE azure_alerts (
-  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  triggered_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  threshold_usd   NUMERIC(10, 2) NOT NULL,
-  actual_cost_usd NUMERIC(10, 2) NOT NULL,
-  message         TEXT,
-  created_at      TIMESTAMPTZ DEFAULT NOW()
-);
+ALTER TABLE llm_usage_snapshots ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admin read llm_usage_snapshots" ON llm_usage_snapshots
+  FOR SELECT USING (auth.role() = 'authenticated');

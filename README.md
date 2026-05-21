@@ -1,146 +1,56 @@
 # Moment Chalet Hakuba — 民宿預訂系統
 
-> 一套為日本白馬村精品民宿集團打造的全端線上預訂平台，整合 AI 客服機器人、PayPal 金流、iCal 自動同步與 Azure 雲端監控。
+一套為日本白馬村精品民宿集團打造的全端線上預訂平台:Vue 3 + Supabase + PayPal,支援多語系、iCal 雙向同步、AI 客服機器人。
+
+> 本專案專注前端 + Supabase。Azure 相關元件(Static Web Apps、Functions、Cost Management)已從程式碼移除,部署可改用 Vercel / Netlify / Cloudflare Pages 等任何靜態託管。
 
 ---
 
-## 背景故事
+## 快速開始 (3 分鐘看到畫面)
 
-白馬村（Hakuba Village）是日本長野縣的知名滑雪勝地，每年吸引大量來自台灣、香港、澳洲的旅客。Moment Chalet Hakuba 是一個擁有九間精品山莊的民宿集團，過去依賴 Airbnb 和 Booking.com 管理預訂，面臨以下痛點：
-
-- **雙重預訂風險**：各平台日曆無法即時同步，容易發生 overbooking
-- **金流不統一**：沒有自己的直訂管道，平台抽成高
-- **客服效率低**：旅客問題重複，人工回覆耗時
-- **費用不透明**：Azure 雲端費用散落各處，難以掌握
-
-本專案從零打造一套完整的直訂系統，解決以上所有問題。
-
----
-
-## 功能亮點
-
-### 旅客端
-- 瀏覽九間民宿，支援地點、人數、價格、日期篩選
-- 互動式地圖（Leaflet + OpenStreetMap）顯示民宿位置
-- 三步驟預訂流程：選日期 → 填資料 → PayPal 付款
-- 早餐選項加購
-- 訂單查詢與退款申請
-- 多語系支援：繁體中文 / English / 日本語
-- AI 客服機器人（RAG 架構，根據民宿知識庫回答）
-
-### 後台管理
-- 訂單管理：查看、篩選、執行退款
-- 民宿與房型 CRUD，含圖片上傳與地圖座標選取
-- iCal 同步管理：手動觸發或自動每小時同步 Airbnb / Booking.com 日曆
-- Azure 費用監控：費用趨勢、預算警示進度條、週報比較
-- AI 機器人管理：Token 用量、對話紀錄查詢、知識庫文件上傳
-
----
-
-## 技術架構
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    使用者瀏覽器                           │
-│  Vue 3 SPA (Azure Static Web Apps)                      │
-│  Tailwind CSS + PrimeVue + Leaflet + PayPal JS SDK      │
-└──────────────────────┬──────────────────────────────────┘
-                       │ HTTPS
-┌──────────────────────▼──────────────────────────────────┐
-│                   Supabase Cloud                         │
-│  ┌─────────────┐  ┌──────────┐  ┌────────────────────┐  │
-│  │ PostgreSQL  │  │   Auth   │  │  Storage (images)  │  │
-│  │ + pgvector  │  └──────────┘  └────────────────────┘  │
-│  └─────────────┘                                         │
-│  ┌─────────────────────────────────────────────────────┐ │
-│  │              Edge Functions (Deno)                  │ │
-│  │  bookings │ paypal-* │ ical-sync │ email-send       │ │
-│  │  chat (RAG) │ documents                             │ │
-│  └─────────────────────────────────────────────────────┘ │
-└──────────────────────┬──────────────────────────────────┘
-                       │
-┌──────────────────────▼──────────────────────────────────┐
-│                   Azure Cloud                            │
-│  ┌──────────────────┐  ┌──────────────────────────────┐  │
-│  │ Azure Functions  │  │  Azure Monitor + Logic Apps  │  │
-│  │ Timer: iCal 同步 │  │  費用警示 Email 通知          │  │
-│  │ Timer: 費用快照  │  └──────────────────────────────┘  │
-│  └──────────────────┘                                    │
-└─────────────────────────────────────────────────────────┘
+```bash
+npm install
+npm run dev
 ```
 
----
-
-## 技術選型
-
-### 前端
-
-| 技術 | 用途 |
-|------|------|
-| [Vue 3](https://vuejs.org/) + Vite | 主框架，Composition API |
-| [TypeScript](https://www.typescriptlang.org/) | 全端型別安全 |
-| [Tailwind CSS v3](https://tailwindcss.com/) | 樣式系統 |
-| [PrimeVue 4](https://primevue.org/) | UI 元件庫 |
-| [Pinia](https://pinia.vuejs.org/) | 狀態管理 |
-| [Vue Router 4](https://router.vuejs.org/) | SPA 路由 |
-| [vue-i18n](https://vue-i18n.intlify.dev/) | 多語系（zh-TW / en / ja） |
-| [Leaflet](https://leafletjs.com/) + vue-leaflet | 互動地圖 |
-| [v-calendar](https://vcalendar.io/) | 日期範圍選擇器 |
-| [PayPal JS SDK](https://developer.paypal.com/sdk/js/) | 前端付款按鈕 |
-| [@vueuse/head](https://github.com/vueuse/head) | SEO meta 管理 |
-| [axios](https://axios-http.com/) | HTTP 請求 |
-
-### 後端
-
-| 技術 | 用途 |
-|------|------|
-| [Supabase](https://supabase.com/) | BaaS：PostgreSQL + Auth + Storage + Edge Functions |
-| [pgvector](https://github.com/pgvector/pgvector) | 向量資料庫（RAG 知識庫） |
-| Deno (TypeScript) | Edge Functions 執行環境 |
-| [OpenAI API](https://platform.openai.com/) | GPT-4o-mini 對話 + text-embedding-3-small 向量化 |
-| [PayPal Orders API](https://developer.paypal.com/) | 建立訂單、捕捉付款、退款 |
-| [Resend](https://resend.com/) | 交易 Email（訂單確認、退款通知） |
-
-### 雲端 / DevOps
-
-| 技術 | 用途 |
-|------|------|
-| [Azure Static Web Apps](https://azure.microsoft.com/products/app-service/static) | 前端部署（CDN + SSL） |
-| [Azure Functions](https://azure.microsoft.com/products/functions) | 定時任務（iCal 同步、費用快照） |
-| [Azure Cost Management API](https://learn.microsoft.com/azure/cost-management-billing/) | 費用資料抓取 |
-| [Azure Monitor + Logic Apps](https://azure.microsoft.com/products/monitor) | 費用超標警示 |
-| GitHub Actions | CI/CD 自動部署 |
-
-### 測試
-
-| 技術 | 用途 |
-|------|------|
-| [Vitest](https://vitest.dev/) | 單元測試 |
-| [fast-check](https://fast-check.io/) | 屬性測試（Property-Based Testing） |
-| [@vue/test-utils](https://test-utils.vuejs.org/) | Vue 元件測試 |
-| [Playwright](https://playwright.dev/) | E2E 端對端測試 |
+打開 [http://localhost:5173](http://localhost:5173) — 在 `.env` 保留預設 placeholder 時,前端會自動進入 **Mock 模式**,讀取 [src/mock/data.ts](src/mock/data.ts) 的假資料,可以完整瀏覽九間民宿、走完訂房流程,不需要任何外部服務。
 
 ---
 
-## RAG 架構（AI 客服機器人）
+## 接上真正的 Supabase
 
-本專案的 chatbot 採用 **Retrieval-Augmented Generation** 架構，讓 AI 根據民宿實際資料回答，而非依賴模型本身的訓練知識。
+如果想用真實資料庫(訂單會被儲存、後台可看到):
 
-```
-使用者問題
-    ↓
-text-embedding-3-small 向量化
-    ↓
-pgvector 相似度搜尋（cosine similarity）
-    ↓
-取出最相關的 4 筆知識庫文件
-    ↓
-注入 GPT-4o-mini system prompt
-    ↓
-生成貼近實際資訊的回覆
+### 1. 建立 Supabase 專案
+
+到 [supabase.com/dashboard](https://supabase.com/dashboard) 建立新專案,從 `Settings → API` 取得三個 key,填到 [.env](.env):
+
+```env
+VITE_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJ...           # public anon key
+SUPABASE_SERVICE_ROLE_KEY=eyJ...        # 只給 seed 腳本與 Edge Functions 使用
 ```
 
-知識庫文件（民宿介紹、設施說明、常見問題等）可透過後台 `/admin/chatbot` 頁面上傳管理。
+### 2. 套用資料庫 schema
+
+在 Supabase Dashboard → `SQL Editor`,**依序**貼上並執行下列檔案的內容:
+
+1. [supabase/migrations/001_initial_schema.sql](supabase/migrations/001_initial_schema.sql) — properties / room_types / bookings / blocked_dates
+2. [supabase/migrations/002_auxiliary_tables.sql](supabase/migrations/002_auxiliary_tables.sql) — chat_logs / llm_usage_snapshots
+3. [supabase/migrations/003_rls_and_indexes.sql](supabase/migrations/003_rls_and_indexes.sql) — Row Level Security
+4. (選用)[supabase/migrations/004_rag_documents.sql](supabase/migrations/004_rag_documents.sql) — pgvector + RAG documents
+
+### 3. 注入示範資料
+
+```bash
+node scripts/seed.mjs
+```
+
+會自動寫入 **9 間民宿、27 個房型、5 筆示範訂單、3 段封鎖日期**。腳本是 idempotent 的 — 重跑會先清空再重寫。
+
+### 4. (選用)建立後台管理員
+
+在 Supabase Dashboard → `Authentication → Users → Add user` 新增一個 email/password 帳號。前端 `/admin/login` 用同樣的密碼登入即可進後台。
 
 ---
 
@@ -148,67 +58,69 @@ pgvector 相似度搜尋（cosine similarity）
 
 ```
 ├── src/
-│   ├── components/        # 共用元件（Navbar, RoomCard, DateRangePicker...）
-│   ├── views/             # 頁面元件
-│   │   ├── admin/         # 後台管理頁面
-│   ├── stores/            # Pinia 狀態管理
-│   ├── router/            # Vue Router 設定
-│   ├── i18n/              # 多語系設定
-│   ├── locales/           # 翻譯檔（zh-TW, en, ja）
-│   ├── lib/               # Supabase client, axios instance
-│   ├── utils/             # 工具函式
-│   ├── types/             # TypeScript 型別定義
-│   ├── mock/              # Mock 資料（無 key 時的示範模式）
-│   └── tests/             # 屬性測試套件
+│   ├── components/        # 共用元件 (Navbar, RoomCard, DateRangePicker, ChatbotWidget, ...)
+│   ├── views/             # 頁面
+│   │   └── admin/         # 後台 (Dashboard / Bookings / Properties / iCal / Chatbot)
+│   ├── stores/            # Pinia (auth / property / booking / chat)
+│   ├── router/            # Vue Router
+│   ├── layouts/           # AdminLayout
+│   ├── i18n/, locales/    # 多語系 (zh-TW / en / ja)
+│   ├── lib/               # supabase client, axios
+│   ├── utils/             # 純函式工具
+│   ├── types/             # TypeScript types
+│   ├── mock/              # Mock 模式用的假資料
+│   └── tests/             # 屬性測試 (fast-check)
 ├── supabase/
-│   ├── functions/         # Edge Functions (Deno)
-│   │   ├── bookings/
-│   │   ├── chat/          # RAG chatbot
-│   │   ├── documents/     # 知識庫文件上傳
-│   │   ├── paypal-create-order/
-│   │   ├── paypal-capture-order/
-│   │   ├── paypal-refund/
-│   │   ├── ical-sync/
-│   │   └── email-send/
-│   ├── migrations/        # 資料庫 schema
-│   └── seed.sql           # 初始民宿資料
-├── azure-functions/       # Azure Timer Triggers (Node.js)
-│   ├── ical-sync/
-│   └── cost-snapshot/
+│   ├── migrations/        # SQL schema 檔
+│   ├── functions/         # Edge Functions (Deno):bookings / paypal-* / ical-sync / chat / documents / email-send
+│   └── seed.sql           # 完整 seed (SQL 版,可貼進 SQL Editor)
+├── scripts/
+│   └── seed.mjs           # 用 service role key 寫入示範資料的 Node 腳本
 ├── e2e/                   # Playwright E2E 測試
-└── .github/workflows/     # GitHub Actions CI/CD
+└── public/                # 靜態資產
 ```
 
 ---
 
-## 快速開始
+## 技術棧
 
-```bash
-# 安裝依賴
-npm install
+**前端**:Vue 3 + Vite、TypeScript、Pinia、Vue Router、Tailwind CSS、PrimeVue 4、vue-i18n、Leaflet (+ vue-leaflet)、v-calendar、@vueuse/head、axios
 
-# 啟動開發伺服器（Mock 模式，無需任何 API Key）
-npm run dev
-```
+**後端 / BaaS**:Supabase (PostgreSQL + Auth + Storage + Edge Functions),選用 pgvector 做 RAG
 
-開啟 [http://localhost:5173](http://localhost:5173) 即可看到完整 UI，包含九間民宿的示範資料。
+**金流**:PayPal Orders API (前端 JS SDK + 後端 capture/refund)
 
-詳細環境設定請參考 [SETUP.md](./SETUP.md)。
+**測試**:Vitest、fast-check、@vue/test-utils、Playwright
 
 ---
 
-## 測試
+## 常用指令
 
 ```bash
-# 單元測試 + 屬性測試（238 個測試）
-npm run test
+npm run dev          # 開發伺服器  (Mock 或真實 Supabase)
+npm run build        # 型別檢查 + 產生 dist/
+npm run type-check   # vue-tsc --noEmit
+npm run test         # 單元 + 屬性測試
+npm run test:e2e     # Playwright
+npm run lint         # ESLint 自動修正
 
-# TypeScript 型別檢查
-npm run type-check
-
-# E2E 測試（需先啟動 dev server）
-npm run test:e2e
+node scripts/seed.mjs   # 重新注入示範資料 (需要真實 Supabase)
 ```
+
+---
+
+## Mock 模式 vs Supabase 模式
+
+| 功能 | Mock 模式 | Supabase 模式 |
+|------|-----------|---------------|
+| 瀏覽民宿與房型 | ✓ 從 `src/mock/data.ts` | ✓ 從 `properties` / `room_types` |
+| 三步驟訂房流程 UI | ✓ | ✓ |
+| 訂單實際寫入 | ✗ (停留在前端 state) | ✓ |
+| 後台管理 (登入、訂單、退款) | ✗ | ✓ |
+| AI 客服機器人 | 固定假回覆 | ✓ (需 OpenAI key) |
+| PayPal 付款 | 略過 | ✓ (需 PayPal key) |
+
+切換方式由 [src/lib/supabase.ts](src/lib/supabase.ts) 的 `IS_MOCK_MODE` 自動判斷:`.env` 沒填或留 `placeholder` 字樣就走 Mock。
 
 ---
 

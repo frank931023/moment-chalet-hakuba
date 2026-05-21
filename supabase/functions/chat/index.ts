@@ -107,7 +107,7 @@ Deno.serve(async (req: Request) => {
     })
   }
 
-  const llmApiKey = Deno.env.get('LLM_API_KEY')
+  const llmApiKey = Deno.env.get('LLM_API_KEY') ?? Deno.env.get('OPENAI_API_KEY')
   const supabaseUrl = Deno.env.get('SUPABASE_URL')
   const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
 

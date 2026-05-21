@@ -1,9 +1,0 @@
-.git
-.vscode
-node_modules
-local.settings.json
-*.test.ts
-*.spec.ts
-README.md
-.env
-.env.*

@@ -79,7 +79,6 @@ const navLinks = [
   { to: '/admin/bookings', label: t('admin.bookings') },
   { to: '/admin/properties', label: t('admin.properties') },
   { to: '/admin/ical', label: t('admin.ical') },
-  { to: '/admin/costs', label: t('admin.costs') },
   { to: '/admin/chatbot', label: t('admin.chatbot') },
 ]
 

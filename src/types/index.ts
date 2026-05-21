@@ -95,26 +95,6 @@ export interface LlmUsageSnapshot {
   created_at: string
 }
 
-export interface AzureCostSnapshot {
-  id: string
-  snapshot_date: string
-  service_name: string
-  resource_name: string | null
-  cost_usd: number
-  cost_twd: number
-  period: 'daily' | 'weekly' | 'monthly'
-  created_at: string
-}
-
-export interface AzureAlert {
-  id: string
-  triggered_at: string
-  threshold_usd: number
-  actual_cost_usd: number
-  message: string | null
-  created_at: string
-}
-
 export interface PropertyFilters {
   location: string
   checkIn: Date | null
